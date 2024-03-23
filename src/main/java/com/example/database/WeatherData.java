@@ -29,6 +29,7 @@ public class WeatherData {
             statement.executeUpdate(sql);
         }
     }
+
     private static void createTableIfNotExists(Connection connection) throws SQLException {
         String sql = "CREATE TABLE IF NOT EXISTS weatherdata (" +
                 "observation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
@@ -51,14 +52,14 @@ public class WeatherData {
                         "LIMIT 3;";
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(query)) {
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-            int columnsNumber = rsmd.getColumnCount();
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int numberOfColumns = metaData.getColumnCount();
             System.out.println("Last entries: ");
             while (resultSet.next()) {
-                for (int i = 1; i <= columnsNumber; i++) {
+                for (int i = 1; i <= numberOfColumns; i++) {
                     if (i > 1) System.out.print(", ");
                     String columnValue = resultSet.getString(i);
-                    System.out.print(rsmd.getColumnName(i) + " " + columnValue);
+                    System.out.print(metaData.getColumnName(i) + " " + columnValue);
                 }
                 System.out.println();
             }

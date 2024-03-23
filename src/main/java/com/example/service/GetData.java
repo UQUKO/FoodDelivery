@@ -23,18 +23,18 @@ public class GetData {
             // Fetch data from the URL
             URL url = new URL("https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php");
             URLConnection connection = url.openConnection();
-            InputStream is = connection.getInputStream();
+            InputStream inputStream = connection.getInputStream();
 
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = db.parse(is);
+            Document doc = db.parse(inputStream);
 
-            NodeList nodeList = doc.getElementsByTagName("station");
-            String tallinn = nodeList.item(1).getTextContent();
+            NodeList stations = doc.getElementsByTagName("station");
+            String tallinn = stations.item(1).getTextContent();
             insertDataIntoDatabase(tallinn);
-            String tartu = nodeList.item(9).getTextContent();
+            String tartu = stations.item(9).getTextContent();
             insertDataIntoDatabase(tartu);
-            String pärnu = nodeList.item(29).getTextContent();
+            String pärnu = stations.item(29).getTextContent();
             insertDataIntoDatabase(pärnu);
 
             Connection conn = DriverManager.getConnection("jdbc:h2:./../weatherdata", "admin", "ilm");
@@ -47,15 +47,15 @@ public class GetData {
 
     private static void insertDataIntoDatabase(String data) {
         try (Connection conn = DriverManager.getConnection("jdbc:h2:./../weatherdata", "admin", "ilm")) {
-            String[] andmed = sorteeriVajalikud(data);
+            String[] sortAndmed = sorteeriVajalikud(data);
 
-            String sql = "INSERT INTO weatherdata (observation_time, station, wmocode, phenomenon, airtemperature, windspeed) VALUES (?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-                pstmt.setObject(1, LocalDateTime.now());
-                for (int i = 0; i < andmed.length; i++) {
-                    pstmt.setString(i + 2, andmed[i]);
+            String query = "INSERT INTO weatherdata (observation_time, station, wmocode, phenomenon, airtemperature, windspeed) VALUES (?, ?, ?, ?, ?, ?)";
+            try (PreparedStatement preparedStatement = conn.prepareStatement(query)) {
+                preparedStatement.setObject(1, LocalDateTime.now());
+                for (int i = 0; i < sortAndmed.length; i++) {
+                    preparedStatement.setString(i + 2, sortAndmed[i]);
                 }
-                pstmt.executeUpdate();
+                preparedStatement.executeUpdate();
             }
         } catch (SQLException e) {
             e.printStackTrace();
