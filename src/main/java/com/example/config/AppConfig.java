@@ -8,6 +8,8 @@ import org.springframework.context.annotation.Configuration;
         "com.example.database",
         "com.example.service",
         "com.example.task",
+        "com.example.dao",
+        "com.example.controller"
         // Add more packages as needed
 })
 public class AppConfig {

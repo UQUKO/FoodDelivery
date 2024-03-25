@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Fee Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <h1>Delivery Fee Calculator</h1>
+    <form id="deliveryForm">
+        <label for="city">City:</label>
+        <div id="cityButtons">
+            <button type="button" id="tartuBtn" onclick="selectCity('Tartu')">Tartu</button>
+            <button type="button" id="tallinnBtn" onclick="selectCity('Tallinn')">Tallinn</button>
+            <button type="button" id="parnuBtn" onclick="selectCity('Pärnu')">Pärnu</button>
+        </div>
+        <input type="hidden" id="selectedCity" name="city">
+        <label for="vehicleType">Vehicle Type:</label>
+        <div id="vehicleButtons">
+            <button type="button" id="bikeBtn" onclick="selectVehicle('Bike')">Bike</button>
+            <button type="button" id="scooterBtn" onclick="selectVehicle('Scooter')">Scooter</button>
+            <button type="button" id="carBtn" onclick="selectVehicle('Car')">Car</button>
+        </div>
+        <input type="hidden" id="selectedVehicle" name="vehicleType">
+        <button type="submit">Calculate Fee</button>
+    </form>
+    <div id="result"></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
