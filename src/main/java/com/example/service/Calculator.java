@@ -1,27 +1,15 @@
 package com.example.service;
 
-import com.example.dao.ReadDatabase;
 import com.example.task.WeatherError;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
-import java.util.Locale;
 
 public class Calculator {
-    private static int tartuWMOCode = 26242;
-
-    private static int tallinnWMOCode = 26038;
-
-    private static int parnuWMOCode = 41803;
-
 
     public static void main(String[] args) throws WeatherError {
-//        Linn tartu = new Tartu();
+        Linn tartu = new Tartu();
         Linn parnu = new Pärnu();
         Linn tallinn = new Tallinn();
-//        double test = calculateFee(tartu, "Bike");
-//        System.out.println(test);
+        double test = calculateFee(tartu, "Bike");
+        System.out.println(test);
     }
 
 
