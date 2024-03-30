@@ -12,7 +12,7 @@ public class ScheduledData {
     private GetData getData;
 
     @Scheduled(cron = "${scheduling.cron.expression}")
-    public void execute() {
+    public void execute() throws CustomError {
         getData.readXML();
     }
 }

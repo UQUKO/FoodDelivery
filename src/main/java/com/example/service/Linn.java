@@ -9,4 +9,5 @@ public interface Linn {
     double getWindspeed();
 
     String getPhenomenon();
+
 }

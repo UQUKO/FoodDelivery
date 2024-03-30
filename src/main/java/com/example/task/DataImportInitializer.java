@@ -17,7 +17,7 @@ public class DataImportInitializer {
     }
 
     @PostConstruct
-    public void init() {
+    public void init() throws CustomError {
         getData.readXML();
     }
 }

@@ -1,7 +1,8 @@
 # FoodDelivery
 Sub-functionality of the food delivery application, which
 calculates the delivery fee for food couriers based on regional base fee, vehicle type, and weather
-conditions.
+conditions. The application has a **home page at localhost:8080** for easy and visual access to the calculating
+functionality of the application. Database is accessible at **localhost:8080/h2-ui**.
 
 ## Business Rules
 ### Business rules to calculate regional base fee (RBF):
@@ -70,3 +71,18 @@ json
 * WeatherDataService: Provides weather data for calculating delivery fees based on city.
 * Linn: Represents a city for delivery.
 * Calculator: Performs the calculation of delivery fees based on city and vehicle type.
+
+# Home Controller Documentation
+The Home Controller is responsible for handling requests related to the home page.
+
+## Endpoints
+### Home Page
+* URL: /
+* Method: GET
+* Description: Retrieves the home page.
+* Response: Returns the index.html page.
+## Usage
+Make a GET request to / to access the home page.
+The controller will return the index.html page.
+## Dependencies
+Spring Framework: Provides the @Controller and @GetMapping annotations for defining controller endpoints.

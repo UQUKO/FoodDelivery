@@ -1,6 +1,5 @@
 package com.example.service;
 
-import com.example.config.AppConfig;
 import com.example.database.WeatherDataService;
 
 public class Tartu implements Linn {
@@ -20,11 +19,9 @@ public class Tartu implements Linn {
     }
 
     private void initializeData() {
-        String stringWithData = weatherDataService.getDataByWmocode(wmocode);
-        String[] data = stringWithData.strip().split(",");
-        this.phenomenon = data[3];
-        this.airtemp = Double.parseDouble(data[1]);
-        this.windspeed = Double.parseDouble(data[5]);
+        this.phenomenon = weatherDataService.getPhenomenonByWmocode(wmocode);
+        this.airtemp = weatherDataService.getAirtempByWmocode(wmocode);
+        this.windspeed = weatherDataService.getWindspeedByWmocode(wmocode);
     }
 
     @Override
