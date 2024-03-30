@@ -13,6 +13,6 @@ class ScheduledDataTest {
         // Manually trigger the scheduled task
         scheduledData.execute();
 
-        WeatherData.main(new String[0]);
+//        WeatherData.main(new String[0]);
     }
 }

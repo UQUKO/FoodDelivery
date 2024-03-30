@@ -1,23 +1,30 @@
 package com.example.service;
 
-import com.example.dao.ReadDatabase;
+import com.example.config.AppConfig;
+import com.example.database.WeatherDataService;
 
-import java.util.List;
+public class Pärnu implements Linn {
 
-public class Pärnu implements Linn{
-
-    private static final int wmocode = 41803;
-
+    private WeatherDataService weatherDataService;
+    private int wmocode = 41803;
     private static double rbf = 2.0;
 
-    private List<String> data = ReadDatabase.retrieveData(wmocode);
+    private String phenomenon;
+    private double airtemp;
+    private double windspeed;
 
-    private String phenomenon = data.get(3);
+    public Pärnu(WeatherDataService weatherDataService) {
+        this.weatherDataService = weatherDataService;
+        initializeData();
+    }
 
-    private double airtemp = Double.parseDouble(data.get(4));
-
-    private double windspeed = Double.parseDouble(data.get(5));
-
+    private void initializeData() {
+        String stringWithData = weatherDataService.getDataByWmocode(wmocode);
+        String[] data = stringWithData.strip().split(",");
+        this.phenomenon = data[3];
+        this.airtemp = Double.parseDouble(data[1]);
+        this.windspeed = Double.parseDouble(data[5]);
+    }
 
     @Override
     public double getRbf() {

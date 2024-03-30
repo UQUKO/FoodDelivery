@@ -1,68 +1,90 @@
 package com.example.database;
 
-import java.sql.*;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "weatherdata")
 public class WeatherData {
 
-    public static void main(String[] args) {
-        String jdbcURL = "jdbc:h2:./../weatherdata";
-        String username = "admin";
-        String password = "ilm";
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-        try (Connection connection = DriverManager.getConnection(jdbcURL, username, password)) {
-            System.out.println("Connected to H2 embedded database.");
+    @Column(name = "observation_time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL")
+    private LocalDateTime observationTime;
 
-//            deleteTable(connection);
-            // Create a table if it doesn't exist
-            createTableIfNotExists(connection);
+    @Column(name = "station")
+    private String station;
 
-            // Retrieve and print all data from the weatherdata table
-            retrieveAndPrintData(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    @Column(name = "wmocode")
+    private int wmocode;
+
+    @Column(name = "phenomenon")
+    private String phenomenon;
+
+    @Column(name = "airtemperature")
+    private double airTemperature;
+
+    @Column(name = "windspeed")
+    private double windSpeed;
+
+    public Long getId() {
+        return id;
     }
 
-    private static void deleteTable(Connection connection) throws SQLException {
-        String sql = "DROP TABLE weatherdata;";
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
-        }
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    private static void createTableIfNotExists(Connection connection) throws SQLException {
-        String sql = "CREATE TABLE IF NOT EXISTS weatherdata (" +
-                "observation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, " +
-                "station VARCHAR(25) NOT NULL, " +
-                "wmocode INT NOT NULL, " +
-                "phenomenon VARCHAR(100) NOT NULL, " +
-                "airtemperature NUMERIC(4, 1) NOT NULL, " +
-                "windspeed NUMERIC(4, 1) NOT NULL, " +
-                "CONSTRAINT weather_pk PRIMARY KEY (wmocode, observation_time), " +
-                "CONSTRAINT weatherdata_windspeed_check CHECK (windspeed >= 0)" +
-                ")";
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
-        }
+    public LocalDateTime getObservationTime() {
+        return observationTime;
     }
 
-    public static void retrieveAndPrintData(Connection connection) throws SQLException {
-        String query = "SELECT * FROM weatherdata " +
-                       "ORDER BY observation_time DESC " +
-                        "LIMIT 3;";
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(query)) {
-            ResultSetMetaData metaData = resultSet.getMetaData();
-            int numberOfColumns = metaData.getColumnCount();
-            System.out.println("Last entries: ");
-            while (resultSet.next()) {
-                for (int i = 1; i <= numberOfColumns; i++) {
-                    if (i > 1) System.out.print(", ");
-                    String columnValue = resultSet.getString(i);
-                    System.out.print(metaData.getColumnName(i) + " " + columnValue);
-                }
-                System.out.println();
-            }
-        }
+    public void setObservationTime(LocalDateTime observationTime) {
+        this.observationTime = observationTime;
     }
+
+    public String getStation() {
+        return station;
+    }
+
+    public void setStation(String station) {
+        this.station = station;
+    }
+
+    public int getWmocode() {
+        return wmocode;
+    }
+
+    public void setWmocode(int wmocode) {
+        this.wmocode = wmocode;
+    }
+
+    public String getPhenomenon() {
+        return phenomenon;
+    }
+
+    public void setPhenomenon(String phenomenon) {
+        this.phenomenon = phenomenon;
+    }
+
+    public double getAirTemperature() {
+        return airTemperature;
+    }
+
+    public void setAirTemperature(double airTemperature) {
+        this.airTemperature = airTemperature;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
+
+    public void setWindSpeed(double windSpeed) {
+        this.windSpeed = windSpeed;
+    }
+
+    // Constructors, getters, and setters
 }

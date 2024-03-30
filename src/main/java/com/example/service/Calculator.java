@@ -1,25 +1,44 @@
 package com.example.service;
 
+import com.example.config.AppConfig;
+import com.example.database.WeatherDataService;
 import com.example.task.WeatherError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Calculator {
 
-    public static void main(String[] args) throws WeatherError {
-        Linn tartu = new Tartu();
-        Linn parnu = new Pärnu();
-        Linn tallinn = new Tallinn();
+    private final WeatherDataService weatherDataService;
+
+    @Autowired
+    public Calculator(WeatherDataService weatherDataService) {
+        this.weatherDataService = weatherDataService;
+    }
+
+    public void run() throws WeatherError {
+        Linn tartu = new Tartu(weatherDataService);
+        Linn parnu = new Pärnu(weatherDataService);
+        Linn tallinn = new Tallinn(weatherDataService);
         double test = calculateFee(tartu, "Bike");
         System.out.println(test);
     }
 
+    public static void main(String[] args) throws WeatherError {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
+        Calculator calculator = context.getBean(Calculator.class);
+        calculator.run();
+    }
+
 
     public static double calculateFee(Linn linn, String vehicle) throws WeatherError {
-        if(vehicle=="Bike" && linn.getWindspeed() >20 ||
+        if(vehicle.equals("Bike") && linn.getWindspeed() > 20 ||
                 (linn.getPhenomenon().toLowerCase().contains("glaze") ||
                 linn.getPhenomenon().toLowerCase().contains("hail") ||
                 linn.getPhenomenon().toLowerCase().contains("thunder")) &&
                 !vehicle.equals("Car")) {
-            throw new WeatherError("Usage of selected vehicle type is forbidden");
+            throw new WeatherError("Usage of selected vehicle type is forbidden!");
         }
         double rbf = calculateRBF(linn, vehicle);
         double atef = calculateATEF(linn, vehicle);

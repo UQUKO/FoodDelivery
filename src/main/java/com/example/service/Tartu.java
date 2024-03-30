@@ -1,33 +1,31 @@
 package com.example.service;
 
-import com.example.dao.ReadDatabase;
+import com.example.config.AppConfig;
+import com.example.database.WeatherDataService;
 
-import java.util.List;
+public class Tartu implements Linn {
 
-public class Tartu implements Linn{
-
-    private static final int wmocode = 26242;
-
+    private final WeatherDataService weatherDataService;
+    private int wmocode = 26242;
     private static double rbf = 2.5;
 
-    private List<String> data = ReadDatabase.retrieveData(wmocode);
-
     private String phenomenon;
-
     private double airtemp;
-
     private double windspeed;
 
-    public Tartu(String phenomenon, double airtemp, double windspeed) {
-        this.phenomenon = phenomenon;
-        this.airtemp = airtemp;
-        this.windspeed = windspeed;
+
+    public Tartu(WeatherDataService weatherDataService) {
+        this.weatherDataService = weatherDataService;
+        initializeData();
     }
-    public Tartu(){
-        this.phenomenon = data.get(3);
-        this.airtemp = Double.parseDouble(data.get(4));
-        this.windspeed = Double.parseDouble(data.get(5));
-    };
+
+    private void initializeData() {
+        String stringWithData = weatherDataService.getDataByWmocode(wmocode);
+        String[] data = stringWithData.strip().split(",");
+        this.phenomenon = data[3];
+        this.airtemp = Double.parseDouble(data[1]);
+        this.windspeed = Double.parseDouble(data[5]);
+    }
 
     @Override
     public double getRbf() {
