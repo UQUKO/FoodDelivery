@@ -4,6 +4,13 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+/**
+ * Entity class representing weather data.
+ * <p>
+ * This class represents weather data stored in the database. It is mapped to the "weatherdata" table
+ * in the database using JPA annotations.
+ * </p>
+ */
 @Entity
 @Table(name = "weatherdata")
 public class WeatherData {

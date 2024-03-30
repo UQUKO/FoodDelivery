@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller class for handling delivery-related operations.
+ */
 @RestController
 @RequestMapping("/delivery")
 public class DeliveryController {
@@ -27,6 +30,13 @@ public class DeliveryController {
     @Autowired
     private WeatherDataService weatherDataService;
 
+    /**
+     * Calculates the delivery fee based on the specified city and vehicle type.
+     *
+     * @param city        The city for which to calculate the delivery fee.
+     * @param vehicleType The type of vehicle used for delivery.
+     * @return A string representing the calculated delivery fee.
+     */
     @GetMapping("/fee")
     public String calculateDeliveryFee(@RequestParam String city, @RequestParam String vehicleType) {
         try {
@@ -40,6 +50,13 @@ public class DeliveryController {
         }
     }
 
+    /**
+     * Validates the input city and vehicle type.
+     *
+     * @param city        The city to validate.
+     * @param vehicleType The vehicle type to validate.
+     * @throws CustomError If the city or vehicle type is invalid.
+     */
     private void validateInput(String city, String vehicleType) throws CustomError {
         if (!cityList.contains(city)) {
             throw new CustomError(city + " doesn't currently have any weather information.");
@@ -49,6 +66,13 @@ public class DeliveryController {
         }
     }
 
+    /**
+     * Creates a Linn object based on the specified city.
+     *
+     * @param city The city for which to create the Linn object.
+     * @return The created Linn object.
+     * @throws CustomError If an invalid city is specified.
+     */
     private Linn createLinn(String city) throws CustomError {
         switch (city) {
             case "Tartu":
