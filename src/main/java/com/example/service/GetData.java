@@ -27,36 +27,50 @@ public class GetData {
     @Value("#{'${listOfStations}'.split(',')}")
     private List<String> cityList;
 
+    /**
+     * Reads XML data from a remote URL and inserts relevant station data into the database.
+     *
+     * This method fetches XML data from a specific URL containing weather observations.
+     * It parses the XML document, extracts station information, and inserts relevant data into the database.
+     * Only stations whose names are present in the configured city list are processed and inserted into the database.
+     *
+     * @throws CustomError If an error occurs while fetching data from the URL or writing to the database.
+     */
     public void readXML() throws CustomError {
         try {
             // Fetch data from the URL
             URL url = new URL("https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php");
             URLConnection connection = url.openConnection();
             InputStream inputStream = connection.getInputStream();
-
+            // Parses the data
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(inputStream);
 
-            NodeList stations = doc.getElementsByTagName("station");
+            // Finds the relevant stations and calls a helper method to insert the data into the database
+            NodeList stations = doc.getElementsByTagName("station"); //gets all the stations
             for (int i = 0; i < stations.getLength(); i++) {
                 Element stationElement = (Element) stations.item(i);
                 NodeList nameNodeList = stationElement.getElementsByTagName("name");
                 if (nameNodeList.getLength() > 0) {
-                    String stationName = nameNodeList.item(0).getTextContent();
+                    String stationName = nameNodeList.item(0).getTextContent();// gets the station name
                     if (cityList.contains(stationName)) {
-                        insertDataIntoDatabase(stations.item(i).getTextContent());
+                        insertDataIntoDatabase(stationElement.getTextContent()); // If the name is present,it gets inserted into the database
                     }
                 }
             }
-
             System.out.println("Data insertion completed at: " + LocalDateTime.now());
         } catch (Exception e) {
             e.printStackTrace();
-            throw new CustomError("Error fetching from URL and writing to the database");
+            throw new CustomError("Error fetching from URL or writing to the database");
         }
     }
 
+    /**
+     * Helper method for writing to the database
+     * @param data All of the data of one station
+     * @throws CustomError If an error occurs while writing to the database
+     */
     private void insertDataIntoDatabase(String data) throws CustomError {
         try {
             String[] sortedData = sortUseful(data);
@@ -76,14 +90,19 @@ public class GetData {
         }
     }
 
+    /**
+     * Filters out relevant parameters of the data
+     * @param data All of the data of one station
+     * @return Array of Strings containing only relevant information
+     */
     private static String[] sortUseful(String data) {
         String[] andmed = data.strip().split("\n");
         return new String[] {
-                andmed[0].strip(),
-                andmed[1].strip(),
-                andmed[4].strip(),
-                andmed[9].strip(),
-                andmed[11].strip()
+                andmed[0].strip(), // name of the station
+                andmed[1].strip(), // wmocode
+                andmed[4].strip(), // phenomenon
+                andmed[9].strip(), // air temperature
+                andmed[11].strip() // wind speed
         };
     }
 }

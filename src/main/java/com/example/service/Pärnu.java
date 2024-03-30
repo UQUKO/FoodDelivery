@@ -17,6 +17,18 @@ public class Pärnu implements Linn {
         initializeData();
     }
 
+    /**
+     * Initializes weather data for the current station.
+     * <p>
+     * This method fetches weather data from the {@link WeatherDataService} based on the station's
+     * WMO code. It retrieves the phenomenon, air temperature,
+     * and wind speed for the current station and initializes the corresponding fields.
+     * </p>
+     * <p>
+     * This method is called during the initialization process of the current object to populate
+     * the weather-related fields.
+     * </p>
+     */
     private void initializeData() {
         this.phenomenon = weatherDataService.getPhenomenonByWmocode(wmocode);
         this.airtemp = weatherDataService.getAirtempByWmocode(wmocode);
