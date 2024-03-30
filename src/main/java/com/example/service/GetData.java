@@ -42,6 +42,7 @@ public class GetData {
             URL url = new URL("https://www.ilmateenistus.ee/ilma_andmed/xml/observations.php");
             URLConnection connection = url.openConnection();
             InputStream inputStream = connection.getInputStream();
+
             // Parses the data
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();

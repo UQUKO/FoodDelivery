@@ -17,14 +17,14 @@ button {
 #result {
     margin-top: 20px;
 }
-/* Style for the active button */
+/* Style for the active vehicle button */
 #vehicleButtons button.active {
     background-color: #777;
     color: white;
 }
 
-/* Style for the active button */
+/* Style for the active city button */
 #cityButtons button.active {
-    background-color: #777; /* Darker shade of gray */
+    background-color: #777;
     color: white;
 }

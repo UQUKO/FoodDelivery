@@ -1,3 +1,8 @@
+/**
+ * Add event listener to the delivery form submission.
+ * Prevents the default form submission behavior and sends a GET request to the server.
+ * Updates the UI with the response data.
+ */
 document.getElementById('deliveryForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -19,6 +24,10 @@ document.getElementById('deliveryForm').addEventListener('submit', function(even
         });
 });
 
+/**
+ * Set the selected city in the hidden input field and update the UI.
+ * @param {string} city - The name of the selected city.
+ */
 function selectCity(city) {
     document.getElementById('selectedCity').value = city;
     // Remove active class from all buttons
@@ -31,6 +40,10 @@ function selectCity(city) {
     });
 }
 
+/**
+ * Set the selected vehicle in the hidden input field and update the UI.
+ * @param {string} vehicle - The type of the selected vehicle.
+ */
 function selectVehicle(vehicle) {
     document.getElementById('selectedVehicle').value = vehicle;
     // Remove active class from all buttons

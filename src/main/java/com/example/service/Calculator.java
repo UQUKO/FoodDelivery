@@ -37,7 +37,7 @@ public class Calculator {
      *                     or if an error occurs during fee calculation.
      */
     public static double calculateFee(Linn linn, String vehicle) throws CustomError{
-        // check for all the cases where usage of a certain vehicle type is forbidden
+        // Check for all the cases where usage of a certain vehicle type is forbidden
         if(vehicle.equalsIgnoreCase("bike") && linn.getWindspeed() > 20 ||
                 (linn.getPhenomenon().toLowerCase().contains("glaze") ||
                 linn.getPhenomenon().toLowerCase().contains("hail") ||
@@ -45,13 +45,13 @@ public class Calculator {
                 !vehicle.equalsIgnoreCase("Car")) {
             throw new CustomError("Usage of selected vehicle type is forbidden!");
         }
-        // Calculates all the components of the fee
+        // Calculate all the components of the fee
         double rbf = calculateRBF(linn, vehicle);
         double atef = calculateATEF(linn, vehicle);
         double wsef = calculateWSEF(linn, vehicle);
         double wpef = calculateWPEF(linn, vehicle);
 
-        // Returns the final fee
+        // Return the final fee
         return rbf + atef + wsef + wpef;
     }
 
