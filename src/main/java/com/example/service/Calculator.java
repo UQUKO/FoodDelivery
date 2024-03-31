@@ -64,10 +64,10 @@ public class Calculator {
     private static double calculateWPEF(Linn linn, String vehicle) {
         double wpef = 0.0;
         if(vehicle.equalsIgnoreCase("Scooter") || vehicle.equalsIgnoreCase("Bike")){
-            if (linn.getPhenomenon().contains("snow")) wpef += 1.0;
-            else if (linn.getPhenomenon().contains("sleet")) wpef += 1.0;
-            else if (linn.getPhenomenon().contains("rain")) wpef += 0.5;
-            else if (linn.getPhenomenon().contains("shower")) wpef += 0.5;
+            if (linn.getPhenomenon().toLowerCase().contains("snow")) wpef += 1.0;
+            else if (linn.getPhenomenon().toLowerCase().contains("sleet")) wpef += 1.0;
+            else if (linn.getPhenomenon().toLowerCase().contains("rain")) wpef += 0.5;
+            else if (linn.getPhenomenon().toLowerCase().contains("shower")) wpef += 0.5;
         }
         return wpef;
     }

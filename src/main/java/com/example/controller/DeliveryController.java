@@ -22,7 +22,7 @@ public class DeliveryController {
     private Linn linn;
 
     @Value("#{'${listOfCities}'.split(',')}")
-    private List<String> cityList;
+    List<String> cityList;
 
     @Value("#{'${listOfTransport}'.split(',')}")
     private List<String> transportList;
@@ -84,5 +84,13 @@ public class DeliveryController {
             default:
                 throw new CustomError("Invalid city specified: " + city);
         }
+    }
+
+    public List<String> getCityList() {
+        return cityList;
+    }
+
+    public List<String> getTransportList() {
+        return transportList;
     }
 }

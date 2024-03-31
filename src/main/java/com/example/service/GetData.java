@@ -21,11 +21,15 @@ import java.util.List;
 @Service
 public class GetData {
 
-    @Autowired
     private WeatherDataRepository weatherDataRepository;
 
+    @Autowired
+    public void setWeatherDataRepository(WeatherDataRepository weatherDataRepository) {
+        this.weatherDataRepository = weatherDataRepository;
+    }
+
     @Value("#{'${listOfStations}'.split(',')}")
-    private List<String> cityList;
+    List<String> cityList;
 
     /**
      * Reads XML data from a remote URL and inserts relevant station data into the database.

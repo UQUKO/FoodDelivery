@@ -37,6 +37,29 @@ public class WeatherData {
     @Column(name = "windspeed")
     private double windSpeed;
 
+    public LocalDateTime getObservationTime() {
+        return observationTime;
+    }
+
+    public String getStation() {
+        return station;
+    }
+
+    public int getWmocode() {
+        return wmocode;
+    }
+
+    public String getPhenomenon() {
+        return phenomenon;
+    }
+
+    public double getAirTemperature() {
+        return airTemperature;
+    }
+
+    public double getWindSpeed() {
+        return windSpeed;
+    }
 
     public void setObservationTime(LocalDateTime observationTime) {
         this.observationTime = observationTime;

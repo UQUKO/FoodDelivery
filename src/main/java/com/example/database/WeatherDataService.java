@@ -14,8 +14,12 @@ import org.springframework.stereotype.Service;
 public class WeatherDataService {
 
 
-    @Autowired
     private WeatherDataRepository weatherDataRepository;
+
+    @Autowired
+    public void setWeatherDataRepository(WeatherDataRepository weatherDataRepository) {
+        this.weatherDataRepository = weatherDataRepository;
+    }
 
     /**
      * Retrieves the phenomenon description for the specified WMO code.
